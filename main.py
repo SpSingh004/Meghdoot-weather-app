@@ -12,7 +12,7 @@ class WeatherApp(ctk.CTk):
         super().__init__()
 
         # Main window configuration
-        self.title("Meghdoot - Modern Forecast Dashboard")
+        self.title("Meghdoot - Modern Forecast")
         self.geometry("980x740")
         self.minsize(980, 740)
         
@@ -142,13 +142,14 @@ class WeatherApp(ctk.CTk):
 
         # Error notification banner (hidden by default)
         self.error_badge = ctk.CTkLabel(
-            self.search_container,
+            self,
             text="",
             font=ctk.CTkFont(family="Segoe UI", size=12),
             text_color="#FF453A",
             fg_color="transparent"
         )
         self.error_badge.place(in_=self.search_entry, relx=0.0, rely=1.0, y=4, anchor="nw")
+        self.error_badge.lift()
 
     def setup_main_layout(self):
         """Dashboard layout split into Left Column (weather details) and Right Column (7-day)."""
@@ -575,6 +576,7 @@ class WeatherApp(ctk.CTk):
     def flash_badge_error(self, message):
         """Displays a red error message in the header that automatically fades after 4 seconds."""
         self.error_badge.configure(text=message)
+        self.error_badge.lift()
         if hasattr(self, "_error_clear_id") and self._error_clear_id:
             self.after_cancel(self._error_clear_id)
         self._error_clear_id = self.after(4000, lambda: self.error_badge.configure(text=""))
